@@ -1,7 +1,7 @@
-import {cloneTemplate} from "../lib/utils.js";
+import { cloneTemplate } from "../lib/utils.js";
 
 export function initTable(settings, onAction) {
-    const {tableTemplate, rowTemplate, before, after} = settings;
+    const { tableTemplate, rowTemplate, before, after } = settings;
     const root = cloneTemplate(tableTemplate);
 
     if (before && before.length) {
@@ -17,7 +17,7 @@ export function initTable(settings, onAction) {
         });
     }
 
-    const form = root.container.querySelector('form');
+    const form = root.container;
     if (form) {
         form.addEventListener('change', () => onAction());
         form.addEventListener('reset', () => setTimeout(() => onAction(), 0));
@@ -40,5 +40,5 @@ export function initTable(settings, onAction) {
         root.elements.rows.replaceChildren(...nextRows);
     };
 
-    return {...root, render};
+    return { ...root, render };
 }

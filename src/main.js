@@ -7,13 +7,13 @@ import { initTable } from "./components/table.js";
 import { initPagination } from './components/pagination.js';
 import { initSorting } from './components/sorting.js';
 import { initFiltering } from './components/filtering.js';
-import { initSearching } from './components/searching.js';   
+import { initSearching } from './components/searching.js';
 
 const { data, sellers, customers } = initData(sourceData);
 const indexes = { searchBySeller: sellers };
 
 function collectState() {
-    const form = sampleTable.container.querySelector('form');
+    const form = sampleTable.container;
     const rawState = processFormData(new FormData(form));
     const rowsPerPage = parseInt(rawState.rowsPerPage) || 10;
     const page = parseInt(rawState.page ?? 1);
@@ -24,7 +24,6 @@ function render(action) {
     let state = collectState();
     let result = [...data];
 
-    
     result = applySearching(result, state, action);
     result = applyFiltering(result, state, action);
     result = applySorting(result, state, action);
@@ -33,14 +32,12 @@ function render(action) {
     sampleTable.render(result);
 }
 
-
 const sampleTable = initTable({
     tableTemplate: 'table',
     rowTemplate: 'row',
-    before: ['search', 'header', 'filter'],   
+    before: ['search', 'header', 'filter'],
     after: ['pagination']
 }, render);
-
 
 const applyPagination = initPagination(
     sampleTable.pagination.elements,
@@ -64,7 +61,7 @@ const applyFiltering = initFiltering(
     indexes
 );
 
-const applySearching = initSearching('search');   
+const applySearching = initSearching('search');
 
 const appRoot = document.querySelector('#app');
 appRoot.appendChild(sampleTable.container);
