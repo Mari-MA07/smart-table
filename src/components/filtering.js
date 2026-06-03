@@ -1,20 +1,22 @@
 import { createComparison } from '../lib/compare.js';
+
 const rangeTotalRule = () => (key, sourceValue, targetValue, source, target) => {
-    const from = target.totalFrom;
-    const to = target.totalTo;
-    if ((!from && from !== 0) && (!to && to !== 0)) return { result: true };
-    const value = Number(source.total);
-    if (isNaN(value)) return { result: false };
-    if (from && value < Number(from)) return { result: false };
-    if (to && value > Number(to)) return { result: false };
-    return { result: true };
+    if (key === 'totalFrom' || key === 'totalTo') {
+        const from = target.totalFrom;
+        const to = target.totalTo;
+        if ((!from && from !== 0) && (!to && to !== 0)) {
+            return { result: true };
+        }
+        const value = Number(source.total);
+        if (isNaN(value)) return { result: false };
+        if (from && value < Number(from)) return { result: false };
+        if (to && value > Number(to)) return { result: false };
+        return { result: true };
+    }
+    return { continue: true };
 };
 
-const defaultRules = [
-    'skipNonExistentSourceFields',
-    'skipEmptyTargetValues',
-    'caseInsensitiveStringIncludes'
-];
+const defaultRules = ['skipEmptyTargetValues', 'caseInsensitiveStringIncludes'];
 
 export function initFiltering(elements, indexes) {
     Object.keys(indexes).forEach(elementName => {
