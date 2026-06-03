@@ -11,10 +11,9 @@ const rangeTotalRule = () => (key, sourceValue, targetValue, source, target) => 
     return { result: true };
 };
 
-const defaultRules = ['skipEmptyTargetValues', 'exactEquality'];
+const defaultRules = ['skipNonExistentSourceFields', 'skipEmptyTargetValues'];
 
 export function initFiltering(elements, indexes) {
-    
     Object.keys(indexes).forEach(elementName => {
         const select = elements[elementName];
         if (select && indexes[elementName]) {
@@ -29,7 +28,6 @@ export function initFiltering(elements, indexes) {
     });
 
     return (data, state, action) => {
-        
         if (action && action.name === 'clear') {
             const field = action.dataset.field;
             const wrapper = action.closest('.filter-wrapper');
@@ -42,7 +40,6 @@ export function initFiltering(elements, indexes) {
             }
         }
 
-       
         const compare = createComparison(defaultRules, [rangeTotalRule()]);
         return data.filter(row => compare(row, state));
     };
