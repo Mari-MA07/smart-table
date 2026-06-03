@@ -1,5 +1,4 @@
 import { createComparison } from '../lib/compare.js';
-
 const rangeTotalRule = () => (key, sourceValue, targetValue, source, target) => {
     const from = target.totalFrom;
     const to = target.totalTo;
@@ -11,7 +10,11 @@ const rangeTotalRule = () => (key, sourceValue, targetValue, source, target) => 
     return { result: true };
 };
 
-const defaultRules = ['skipNonExistentSourceFields', 'skipEmptyTargetValues'];
+const defaultRules = [
+    'skipNonExistentSourceFields',
+    'skipEmptyTargetValues',
+    'caseInsensitiveStringIncludes'
+];
 
 export function initFiltering(elements, indexes) {
     Object.keys(indexes).forEach(elementName => {
